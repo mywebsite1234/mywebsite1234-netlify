@@ -9,8 +9,7 @@ const outputFile = path.join(archiveDir, 'neal-fun-stitched.wacz');
 
 // 1. Force a clean, fresh stitch on every boot
 if (fs.existsSync(outputFile)) {
-    console.log("Cleaning old cache...");
-    fs.unlinkSync(outputFile); 
+    try { fs.unlinkSync(outputFile); } catch (e) {}
 }
 
 console.log("Stitching binary chunks synchronously...");
@@ -32,17 +31,24 @@ app.use((req, res, next) => {
     next();
 });
 
-// 3. THE FIX: Serve the game on a clean "/play" URL, prioritizing it ABOVE the root!
-app.get('/play', (req, res) => res.redirect('/play/')); // Auto-adds the trailing slash
-app.use('/play', express.static(archiveDir, {
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.wacz')) {
-            res.setHeader('Content-Type', 'application/octet-stream');
-        }
-    }
-}));
+// 3. THE MAGIC FIX: Serve the giant binary file explicitly, bypassing express.static!
+app.get('/archive.wacz', (req, res) => {
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.sendFile(outputFile);
+});
 
-// 4. Serve your main website homepage
+// 4. Intercept the cursed underscore URL
+app.use((req, res, next) => {
+    if (req.originalUrl.startsWith('/neal_fun_archive')) {
+        return res.redirect(req.originalUrl.replace('/neal_fun_archive', '/play'));
+    }
+    next();
+});
+
+// 5. Serve the HTML and UI files on the clean "/play" URL
+app.use('/play', express.static(archiveDir));
+
+// 6. Serve your main website homepage
 app.use('/', express.static(__dirname));
 
 app.listen(port, () => console.log(`Server running smoothly on port ${port}`));
