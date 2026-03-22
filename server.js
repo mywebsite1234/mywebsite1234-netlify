@@ -7,14 +7,13 @@ const port = process.env.PORT || 3000;
 const archiveDir = path.join(__dirname, 'neal_fun_archive');
 const outputFile = path.join(archiveDir, 'neal-fun-stitched.wacz');
 
-// 1. THE NUKE: Forcefully delete any old/broken stitched files from previous runs
+// 1. Force a clean, fresh stitch on every boot
 if (fs.existsSync(outputFile)) {
-    console.log("Deleting old cached archive...");
+    console.log("Cleaning old cache...");
     fs.unlinkSync(outputFile); 
 }
 
-// 2. Fresh, synchronous stitch
-console.log("Stitching chunks together synchronously. Please wait...");
+console.log("Stitching binary chunks synchronously...");
 for (let i = 0; i < 18; i++) {
     const partName = `neal.part${i.toString().padStart(2, '0')}.bin`;
     const partPath = path.join(archiveDir, partName);
@@ -23,9 +22,9 @@ for (let i = 0; i < 18; i++) {
         fs.appendFileSync(outputFile, data);
     }
 }
-console.log("Stitching complete! File is locked and ready.");
+console.log("Stitching complete!");
 
-// 3. Global Headers
+// 2. Global Anti-Compression Headers
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Accept-Ranges", "bytes");
@@ -33,13 +32,17 @@ app.use((req, res, next) => {
     next();
 });
 
-// 4. THE PATH FIX: Create an absolute, unbreakable URL just for the giant file
-app.get('/archive.wacz', (req, res) => {
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.sendFile(outputFile); // Natively handles byte-ranges perfectly
-});
+// 3. THE FIX: Serve the game on a clean "/play" URL, prioritizing it ABOVE the root!
+app.get('/play', (req, res) => res.redirect('/play/')); // Auto-adds the trailing slash
+app.use('/play', express.static(archiveDir, {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.wacz')) {
+            res.setHeader('Content-Type', 'application/octet-stream');
+        }
+    }
+}));
 
-// 5. Serve the main website and the subfolder
+// 4. Serve your main website homepage
 app.use('/', express.static(__dirname));
 
 app.listen(port, () => console.log(`Server running smoothly on port ${port}`));
