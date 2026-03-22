@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BSOD with Explosion</title>
+<style>
+  /* BSOD style background and text */
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    background-color: #0000AA; /* classic BSOD blue */
+    color: white;
+    font-family: Consolas, "Courier New", monospace;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Container for content */
+  .container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+    padding-top: 50px;
+  }
+
+  /* Red text, fixed near the top center */
+  .red-text {
+    color: #FF0000;
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow:
+      0 0 5px #FF0000,
+      0 0 10px #FF0000,
+      0 0 20px #FF0000;
+    user-select: none;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* BSOD text content */
+  .bsod-text {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    padding: 0 20px;
+  }
+
+  canvas {
+    display: block;
+    margin: 40px auto 0;
+    background: transparent;
+  }
+</style>
+</head>
+<body>
+  <div class="red-text">CRITICAL EXPLOSION ERROR</div>
+  <div class="container">
+    <div class="bsod-text">
+      <p>A problem has been detected and Windows has been shut down to prevent damage<br />
+      to your computer.</p>
+
+      <p>*** EXPLOSION_FAULT (0x000000DE)<br />
+      A critical explosion has occurred in the system kernel.<br />
+      Please restart your computer.</p>
+
+      <p>If this is the first time you've seen this stop error screen,<br />
+      restart your computer. If this screen appears again, follow<br />
+      these steps:</p>
+
+      <p>Check to make sure any new hardware or software is properly installed.<br />
+      If this is a new installation, ask your hardware or software manufacturer<br />
+      for any Windows updates you might need.</p>
+
+      <p>Technical information:<br />
+      *** STOP: 0xDEADCAFE (0x00000000, 0x00000000, 0x00000000, 0x00000000)</p>
+    </div>
+
+    <canvas id="explosion" width="600" height="200"></canvas>
+  </div>
+
+<script>
+  const canvas = document.getElementById('explosion');
+  const ctx = canvas.getContext('2d');
+
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+
+    reset() {
+      this.x = centerX;
+      this.y = centerY;
+      this.radius = Math.random() * 4 + 2;
+      this.color = `hsl(${Math.random() * 60 + 20}, 100%, 70%)`;
+      this.speed = Math.random() * 8 + 4;
+      this.angle = Math.random() * 2 * Math.PI;
+      this.velX = Math.cos(this.angle) * this.speed;
+      this.velY = Math.sin(this.angle) * this.speed;
+      this.life = 50 + Math.random() * 30;
+      this.age = 0;
+      this.gravity = 0.12;
+      this.alpha = 1;
+    }
+
+    update() {
+      this.x += this.velX;
+      this.y += this.velY;
+      this.velY += this.gravity;
+      this.age++;
+      this.alpha = 1 - this.age / this.life;
+      if (this.age >= this.life) {
+        this.reset();
+      }
+    }
+
+    draw(ctx) {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+      gradient.addColorStop(0, this.color);
+      gradient.addColorStop(1, 'transparent');
+      ctx.fillStyle = gradient;
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const particles = [];
+  const PARTICLE_COUNT = 100;
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Center glow
+    const flashRadius = 40 + 20 * Math.sin(Date.now() / 150);
+    const flashGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, flashRadius);
+    flashGradient.addColorStop(0, 'rgba(255, 100, 50, 0.8)');
+    flashGradient.addColorStop(1, 'rgba(255, 50, 0, 0)');
+    ctx.fillStyle = flashGradient;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, flashRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    particles.forEach(p => {
+      p.update();
+      p.draw(ctx);
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+</body>
+</html>
+

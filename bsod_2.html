@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fake BSOD with Reboot</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Lucida Console", Monaco, monospace;
+      font-size: 18px;
+      background-color: black; /* Default for reboot screen */
+    }
+
+    .screen {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 40px;
+      box-sizing: border-box;
+      flex-direction: column;
+    }
+
+    .visible {
+      display: flex;
+    }
+
+    .bsod {
+      background-color: #0000AA;
+      color: #FFFFFF;
+    }
+
+    .reboot {
+      background-color: black;
+      color: #00FF00;
+      font-size: 14px;
+    }
+
+    .smiley {
+      font-size: 60px;
+    }
+
+    .large {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    .code {
+      font-size: 16px;
+      color: #AAAAFF;
+      margin-top: 20px;
+    }
+
+    .blink {
+      animation: blink 1s step-start 0s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="screen bsod visible" id="bsodScreen">
+    <div class="smiley">:(</div>
+    <div class="large">
+      Your PC ran into a problem and needs to restart.<br>
+      We're just collecting some error info, and then we'll restart for you.
+    </div>
+    <p>For more information about this issue and possible fixes, visit https://www.windows.com/stopcode</p>
+    <p>If you call a support person, give them this info:</p>
+    <div class="code">Stop code: CRITICAL_PROCESS_DIED</div>
+  </div>
+
+  <div class="screen reboot" id="rebootScreen">
+    <div>
+      <p>American Megatrends</p>
+      <p>AMIBIOS(C)2023 American Megatrends, Inc.</p>
+      <p>ASUS PRIME B450M-A ACPI BIOS Revision 4405</p>
+      <p>CPU: AMD Ryzen 5 3600 6-Core Processor</p>
+      <p>Speed: 3600MHz</p>
+      <p>Initializing USB Controllers .. Done.</p>
+      <p>Auto-Detecting SATA 1... SATA 1 Installed</p>
+      <p>Auto-Detecting SATA 2... Not Detected</p>
+      <p>Press ESC to run Setup, F8 for BBS Popup</p>
+      <p class="blink">_</p>
+    </div>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('bsodScreen').classList.remove('visible');
+      document.getElementById('rebootScreen').classList.add('visible');
+    }, 10000); // Switch after 10 seconds
+  </script>
+
+</body>
+</html>

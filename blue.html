@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>No one is safe</title>
+<style>
+  body {
+    background-color: blue;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: Arial, sans-serif; /* Added a default font */
+    color: white; /* Added text color for better visibility on blue background */
+  }
+  .container {
+    /* No specific styling needed for the container itself for this layout,
+       but it's good practice to have one if you want to add borders, padding etc. later */
+  }
+  .main-text {
+    font-size: 48px; /* Larger font size for the main message */
+    margin-bottom: 20px; /* Space below the main message */
+  }
+  .sub-text {
+    font-size: 24px; /* Smaller font size for the subsequent lines */
+    margin-bottom: 10px; /* Space below each sub-text line */
+  }
+  .sub-text:last-child {
+    margin-bottom: 0; /* Remove margin from the last sub-text line */
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <p class="main-text">No one is safe</p>
+    <p class="sub-text">The Blue screen of doom</p>
+    <p class="sub-text">has come for you</p>
+  </div>
+</body>
+</html>

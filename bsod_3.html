@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>No one is safe</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      background-color: blue; /* Original blue background */
+    }
+
+    .container {
+      z-index: 1;
+    }
+
+    .main-text {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .sub-text {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .sub-text:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Fake BSOD Styles */
+    .screen {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 40px;
+      box-sizing: border-box;
+      flex-direction: column;
+      z-index: 2;
+      position: absolute;
+    }
+
+    .bsod {
+      background-color: #0000AA; /* BSOD background (blue) */
+      color: white;
+    }
+
+    .reboot {
+      background-color: black; /* Reboot background (black) */
+      color: #00FF00;
+      font-size: 14px;
+    }
+
+    .smiley {
+      font-size: 60px;
+    }
+    .hot-text {
+      color: red;
+    }
+
+    .large {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    .code {
+      font-size: 16px;
+      color: #AAAAFF;
+      margin-top: 20px;
+    }
+
+    .blink {
+      animation: blink 1s step-start 0s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Visible class to show the correct screen */
+    .visible {
+      display: flex !important;
+    }
+
+    /* Hide the cursor when BSOD or reboot is visible */
+    .hide-cursor {
+      cursor: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <p class="main-text">No one is safe</p>
+    <p class="sub-text">The Blue screen of doom</p>
+    <p class="sub-text">has come for you</p>
+  </div>
+
+  <div class="screen bsod" id="bsodScreen">
+    <div>
+      <div class="smiley">:(</div>
+      <div class="large">
+        Your PC ran into a problem and needs to restart.<br>
+        We're just collecting some error info, and then we'll restart for you.
+      </div>
+      <p>For more information about this issue and possible fixes, visit https://www.windows.com/stopcode</p>
+      <p>If you call a support person, give them this info:</p>
+      <div class="code">Stop code: CRITICAL_PROCESS_DIED</div>
+    </div>
+  </div>
+
+  <div class="screen reboot" id="rebootScreen">
+    <div>
+      <p>American Megatrends</p>
+      <p>AMIBIOS(C)2023 American Megatrends, Inc.</p>
+      <p>ASUS PRIME B450M-A ACPI BIOS Revision 4405</p>
+      <p>CPU: AMD Ryzen 5 3600 6-Core Processor</p>
+      <p>Speed: 3600MHz</p>
+      <p>Initializing USB Controllers .. Done.</p>
+      <p>Auto-Detecting SATA 1... SATA 1 Installed</p>
+      <p class="hot-text">Temp... 1000 Degrees Fahrenheit</p>
+      <p class="hot-text">TEMP IS VERY HOT POTENTIAL EXPLOSION!!!!!!!!!</p>
+      <p class="hot-text">pls dont stick a pencil in ur computer</p>
+      <p class="blink">_</p>
+    </div>
+  </div>
+
+  <script>
+    // Show BSOD after 10 seconds and change background color to blue for BSOD
+    setTimeout(() => {
+      document.querySelector('.container').style.display = 'none'; // Hide the initial content
+      document.body.style.backgroundColor = '#0000AA'; // Change background to blue for BSOD
+      document.getElementById('bsodScreen').classList.add('visible'); // Show BSOD
+      document.body.classList.add('hide-cursor'); // Hide the cursor
+    }, 10000); // After 10 seconds, show BSOD
+
+    // Switch to the reboot screen after 10 more seconds (20 seconds total)
+    setTimeout(() => {
+      document.body.style.backgroundColor = 'black'; // Change background to black for reboot
+      document.getElementById('bsodScreen').classList.remove('visible'); // Hide BSOD
+      document.getElementById('rebootScreen').classList.add('visible'); // Show Reboot
+    }, 20000); // After 20 seconds, show reboot screen (10 seconds after BSOD)
+
+    // After reboot screen, remove cursor hiding (optional)
+//    setTimeout(() => {
+//      document.body.classList.remove('hide-cursor');
+//    }, 30000); // Remove the cursor hide effect after 30 seconds (end of fake reboot)
+  </script>
+
+</body>
+</html>
+

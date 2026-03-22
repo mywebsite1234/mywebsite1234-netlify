@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>OvO</title>
+<!-- All margins and padding must be zero for the canvas to fill the screen. -->
+<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		html, body {
+			background: #000;
+			color: #fff;
+			overflow: hidden;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+		canvas {
+			touch-action-delay: none;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+</style>
+</head>
+<body>
+<div id="c2canvasdiv">
+	<canvas id="c2canvas" width="640" height="640">
+		Your browser does not appear to support HTML5. Try upgrading your browser to the latest version.
+	</canvas>
+</div>
+
+<!-- Scripts are now using simple relative paths because they are in the same folder -->
+<script src="jquery-3.4.1.min.js"></script>
+<script src="c2runtime.js"></script>
+<script src="GameAnalytics.js"></script>
+
+<script>
+// Start the Construct 2 project running on window load.
+jQuery(document).ready(function ()
+{
+	// Create new runtime using the c2canvas
+	cr_createRuntime("c2canvas");
+});
+
+// Pause and resume on page becoming visible/invisible
+function onVisibilityChanged() {
+	if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+		cr_setSuspended(true);
+	else
+		cr_setSuspended(false);
+};
+document.addEventListener("visibilitychange", onVisibilityChanged, false);
+document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+</script>
+</body>
+</html>
+
+
+
+

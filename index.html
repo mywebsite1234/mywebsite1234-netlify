@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6H3WPQVTX0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-6H3WPQVTX0');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title">Classplay</title>
+    <link id="favicon" rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+    <meta name="description" content="A game hub built for students, by students" property="og:description">
+    <meta name="title" content="Classplay" property="og:title">
+    <meta name="image" content="/img/banner.png" property="og:image">
+    <script src="/assets/js/geoblocker.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #fc2651;
+            --primary-hover: #e91e47;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.6);
+            --gradient-primary: linear-gradient(135deg, #fc2651 0%, #e91e47 100%);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+        }
+        header {
+            background: var(--gradient-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .nav-links .separator {
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0 0.5rem;
+        }
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+        .hero-logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+        .announcements {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: var(--shadow-lg);
+        }
+        .announcements h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0.5rem 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .announcements i { color: var(--primary); }
+        .announcements hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0), var(--border), rgba(255, 255, 255, 0));
+            margin-bottom: 1.5rem;
+        }
+        .announcements p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Classplay</a>
+            <nav class="nav-links">
+                <a href="g.html">Games</a>
+                <a href="apps.html">Apps</a>
+                <a href="settings.html">Settings</a>
+                <span class="separator">|</span>
+                <a onclick="saveData()">Export Data</a>
+                <a onclick="document.getElementById('importData').click()">Import Data</a>
+                <input type="file" id="importData" style="display: none;" onchange="loadData(event)">
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <img src="class_img/classplay_logo.png" alt="Classplay Logo" style="margin-right: 24px; height: 180px; width: 699px;" class="hero-logo">
+            <h1 class="hero-title">Classplay</h1>
+        </section>
+
+        <section class="announcements">
+            <h1><i class="fa-solid fa-bell"></i>Announcements</h1>
+            <hr>
+            <p>New features out now! This includes the gn-math theme, pictures for the games, and working dadish 3! v11: added export/import buttons for game progress.</p>
+        </section>
+    </main>
+    <script>
+        // --- DATA PORTABILITY FUNCTIONS ---
+        function sanitizeData(obj, maxStringLen = 1000, maxArrayLen = 10000) {
+            if (typeof obj === 'string') return obj.length > maxStringLen ? obj.slice(0, maxStringLen) + '...[truncated]' : obj;
+            if (obj instanceof Uint8Array) return obj.length > maxArrayLen ? `[Uint8Array too large]` : obj;
+            if (Array.isArray(obj)) return obj.map(item => sanitizeData(item, maxStringLen, maxArrayLen));
+            if (obj && typeof obj === 'object') {
+                const newObj = {};
+                for (const key in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                        newObj[key] = sanitizeData(obj[key], maxStringLen, maxArrayLen);
+                    }
+                }
+                return newObj;
+            }
+            return obj;
+        }
+
+        async function saveData() {
+            alert("Exporting all your game progress. This might take a moment.");
+            const result = {
+                cookies: document.cookie,
+                localStorage: {...localStorage},
+                sessionStorage: {...sessionStorage},
+                indexedDB: {},
+                caches: {}
+            };
+            try {
+                const dbs = await indexedDB.databases();
+                for (const dbInfo of dbs) {
+                    if (!dbInfo.name) continue;
+                    result.indexedDB[dbInfo.name] = {};
+                    await new Promise((resolve, reject) => {
+                        const openRequest = indexedDB.open(dbInfo.name, dbInfo.version);
+                        openRequest.onerror = () => reject(openRequest.error);
+                        openRequest.onsuccess = () => {
+                            const db = openRequest.result;
+                            const storeNames = Array.from(db.objectStoreNames);
+                            if (storeNames.length === 0) { resolve(); return; }
+                            const transaction = db.transaction(storeNames, "readonly");
+                            const storePromises = storeNames.map(storeName => new Promise((res, rej) => {
+                                result.indexedDB[dbInfo.name][storeName] = [];
+                                const store = transaction.objectStore(storeName);
+                                const getAllRequest = store.getAll();
+                                getAllRequest.onsuccess = () => {
+                                    result.indexedDB[dbInfo.name][storeName] = sanitizeData(getAllRequest.result, 1000, 100);
+                                    res();
+                                };
+                                getAllRequest.onerror = () => rej(getAllRequest.error);
+                            }));
+                            Promise.all(storePromises).then(() => resolve());
+                        };
+                    });
+                }
+                const cacheNames = await caches.keys();
+                for (const cacheName of cacheNames) {
+                    const cache = await caches.open(cacheName);
+                    const requests = await cache.keys();
+                    result.caches[cacheName] = [];
+                    for (const req of requests) {
+                        const response = await cache.match(req);
+                        if (!response) continue;
+                        const cloned = response.clone();
+                        const contentType = cloned.headers.get('content-type') || '';
+                        let body;
+                        try {
+                            if (contentType.includes('json')) body = await cloned.json();
+                            else if (contentType.includes('text') || contentType.includes('javascript')) body = await cloned.text();
+                            else {
+                                const buffer = await cloned.arrayBuffer();
+                                body = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+                            }
+                        } catch (e) { body = '[Unable to read body]'; }
+                        result.caches[cacheName].push({ url: req.url, body, contentType });
+                    }
+                }
+                alert("Export complete! Your download will begin now.");
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(new Blob([JSON.stringify(result)], { type: "text/plain" }));
+                link.download = `classplay-data-${Date.now()}.json`;
+                link.click();
+                link.remove();
+            } catch (error) {
+                console.error("Error saving data:", error);
+                alert("An error occurred while exporting your data.");
+            }
+        }
+
+        function loadData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                alert("Importing data. The page will reload when finished.");
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.cookies) { data.cookies.split(';').forEach(cookie => { document.cookie = cookie.trim(); }); }
+                    if (data.localStorage) { for (const key in data.localStorage) { localStorage.setItem(key, data.localStorage[key]); } }
+                    if (data.sessionStorage) { for (const key in data.sessionStorage) { sessionStorage.setItem(key, data.sessionStorage[key]); } }
+                    if (data.indexedDB) {
+                        for (const dbName in data.indexedDB) {
+                            const stores = data.indexedDB[dbName];
+                            const dbVersion = stores.version || 1;
+                            await new Promise((resolve, reject) => {
+                                const request = indexedDB.open(dbName, dbVersion);
+                                request.onupgradeneeded = e => {
+                                    const db = e.target.result;
+                                    for (const storeName in stores) {
+                                        if (!db.objectStoreNames.contains(storeName) && storeName !== 'version') {
+                                            db.createObjectStore(storeName, { autoIncrement: true });
+                                        }
+                                    }
+                                };
+                                request.onsuccess = e => {
+                                    const db = e.target.result;
+                                    const storeNames = Object.keys(stores).filter(name => name !== 'version');
+                                    if(storeNames.length === 0) return resolve();
+                                    const transaction = db.transaction(storeNames, 'readwrite');
+                                    transaction.onerror = () => reject(transaction.error);
+                                    let pending = storeNames.length;
+                                    for (const storeName of storeNames) {
+                                        const objectStore = transaction.objectStore(storeName);
+                                        objectStore.clear().onsuccess = () => {
+                                            stores[storeName].forEach(item => {
+                                                try {
+                                                  objectStore.put(item)
+                                                } catch(err) {
+                                                  console.warn(`Could not add item to ${storeName}:`, item, err)
+                                                }
+                                            });
+                                            if (--pending === 0) resolve();
+                                        };
+                                    }
+                                };
+                                request.onerror = () => reject(request.error);
+                            });
+                        }
+                    }
+                    if (data.caches) {
+                        for (const cacheName in data.caches) {
+                            const cache = await caches.open(cacheName);
+                            await cache.keys().then(keys => Promise.all(keys.map(k => cache.delete(k))));
+                            for (const entry of data.caches[cacheName]) {
+                                let responseBody;
+                                if (entry.contentType.includes('json')) responseBody = JSON.stringify(entry.body);
+                                else if (entry.contentType.includes('text') || entry.contentType.includes('javascript')) responseBody = entry.body;
+                                else {
+                                    const binaryStr = atob(entry.body);
+                                    const bytes = new Uint8Array(binaryStr.length);
+                                    for (let i = 0; i < binaryStr.length; i++) { bytes[i] = binaryStr.charCodeAt(i); }
+                                    responseBody = bytes.buffer;
+                                }
+                                const response = new Response(responseBody, { headers: { 'content-type': entry.contentType } });
+                                await cache.put(entry.url, response);
+                            }
+                        }
+                    }
+                    alert("Data loaded successfully! The page will now reload.");
+                    window.location.reload();
+                } catch(error) {
+                    console.error("Error loading data:", error);
+                    alert("Failed to import data. The file may be corrupt.");
+                }
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+

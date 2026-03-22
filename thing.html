@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browser-only Proxy (CORS-Compatible)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    input, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Browser-only Proxy</h2>
+  <p>Enter a URL that allows CORS (e.g., https://api.github.com)</p>
+  <input type="text" id="urlInput" placeholder="https://api.github.com" />
+  <button onclick="fetchURL()">Fetch URL</button>
+  <textarea id="responseOutput" placeholder="Response will appear here..."></textarea>
+
+  <script>
+    async function fetchURL() {
+      const url = document.getElementById("urlInput").value.trim();
+      const output = document.getElementById("responseOutput");
+
+      if (!url) {
+        output.value = "Please enter a URL.";
+        return;
+      }
+
+      output.value = "Fetching...";
+
+      try {
+        const res = await fetch(url);
+        const contentType = res.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const json = await res.json();
+          output.value = JSON.stringify(json, null, 2);
+        } else {
+          const text = await res.text();
+          output.value = text;
+        }
+      } catch (err) {
+        output.value = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

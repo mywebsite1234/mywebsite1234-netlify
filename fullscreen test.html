@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fullscreen Example</title>
+<style>
+body {
+  margin: 0; /* Remove default body margin */
+}
+</style>
+</head>
+<body>
+
+<button onclick="toggleFullscreen()">Toggle Fullscreen</button>
+
+<video id="myvideo" width="320" height="240" controls>
+  <source src="spacem.mpr" type="video/mp3">
+  Your browser does not support the video tag.
+</video>
+
+<script>
+function toggleFullscreen() {
+  var elem = document.getElementById("myvideo");
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.mozRequestFullscreen) { /* Firefox */
+    elem.mozRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
+</script>
+
+</body>
+</html>

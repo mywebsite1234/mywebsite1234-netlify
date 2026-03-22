@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/neal-fun-archive.wacz",
+      "destination": "https://github.com/mywebsite1234/mywebsite1234.github.io/releases/download/v1.0.0/neal-fun.wacz"
+    }
+  ]
+}

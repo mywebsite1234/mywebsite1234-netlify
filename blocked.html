@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title">Access Required</title>
+    <link id="favicon" rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+    <meta name="description" content="A game hub built for students, by students" property="og:description">
+    <meta name="title" content="Classplay" property="og:title">
+    <meta name="image" content="https://useclassplay.github.io/img/banner.png" property="og:image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #fc2651;
+            --primary-hover: #e91e47;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --bg: #0f172a;
+            --surface: #1e2b3a;
+            --border: #334155;
+            --radius: 12px;
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.6);
+            --gradient-primary: linear-gradient(135deg, #fc2651 0%, #e91e47 100%);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            overflow: hidden;
+        }
+        .access-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin: 0 0 0.5rem;
+        }
+        p {
+            color: var(--text-muted);
+            margin: 0 0 2rem;
+        }
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        #invite-code {
+            flex-grow: 1;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        #invite-code:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(252, 38, 81, 0.25);
+        }
+        #submit-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            padding: 0.875rem 1.5rem;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        #myIframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 9999;
+            visibility: hidden; /* Use visibility instead of display */
+        }
+        .error-message {
+            color: #ff4d75;
+            margin-top: 1rem;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="access-container">
+        <h1>Access Required</h1>
+        <p>Please enter an access code to continue.</p>
+        <div class="input-group">
+            <input type="text" id="invite-code" placeholder="XXXXXX">
+            <button id="submit-btn"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <p class="error-message" id="error-message">Invalid access code.</p>
+    </div>
+    
+    <iframe id="myIframe" src="banana.html"></iframe>
+
+    <script>
+        const validCodes = ["Yqcne2", "Omv46U", "L3v2I0", "fxFl6s", "ZlO3Gy", "t760kv", "006I09", "7cu2ZG", "U9P0Nl", "mjzRK3", "XXXXXX", "dadish3", "bob", "Michael"];
+
+        // --- Redirection Logic ---
+        if (localStorage.getItem("accessGranted") === "true") {
+            // If access is granted, redirect immediately, but not from the blocked page itself
+            if (!window.location.pathname.endsWith("blocked.html")) {
+                 window.location.href = "/"; // Or your main page
+            }
+        } else {
+            // If access is not granted, and we are not on the blocked page, redirect to it
+            if (!window.location.pathname.endsWith("blocked.html")) {
+                window.location.href = "blocked.html";
+            }
+        }
+
+        // --- DOM Elements ---
+        const inviteCodeInput = document.getElementById('invite-code');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+        const iframe = document.getElementById('myIframe');
+
+        // --- Core Function ---
+        function checkInviteCode() {
+            const inputCode = inviteCodeInput.value.trim();
+
+            if (validCodes.includes(inputCode)) {
+                localStorage.setItem("accessGranted", "true");
+                window.location.href = "/"; // Redirect to homepage
+            } else if (inputCode === "") {
+                return; // Do nothing if blank
+            } else {
+                // Trigger blue screen for invalid code
+                errorMessage.style.visibility = 'visible';
+                errorMessage.style.opacity = '1';
+                toggleFullscreen();
+                setTimeout(() => {
+                    iframe.contentWindow.postMessage('startSequence', '*');
+                }, 100);
+            }
+        }
+
+        // --- Event Listeners ---
+        submitBtn.addEventListener('click', checkInviteCode);
+        inviteCodeInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                checkInviteCode();
+            }
+        });
+        
+        // --- Fullscreen and Iframe Logic ---
+        function toggleFullscreen() {
+            iframe.style.visibility = 'visible';
+            if (iframe.requestFullscreen) iframe.requestFullscreen();
+            else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+            else if (iframe.mozRequestFullscreen) iframe.mozRequestFullscreen();
+            else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+        }
+
+        window.addEventListener('message', function(event) {
+            if (event.data === 'sequenceFinished') {
+                if (document.fullscreenElement) document.exitFullscreen();
+            }
+        });
+
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                iframe.style.visibility = 'hidden';
+                iframe.contentWindow.postMessage('resetSequence', '*');
+            }
+        });
+    </script>
+</body>
+</html>

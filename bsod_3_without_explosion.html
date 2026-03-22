@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>No one is safe</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      background-color: blue; /* Original blue background */
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .container {
+      z-index: 1;
+    }
+    
+    .larger {
+      font-size: 50px;
+      margin-top: 20px;
+    }     
+
+    .main-text {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .sub-text {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .sub-text:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Fake BSOD Styles */
+    .screen {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 40px;
+      box-sizing: border-box;
+      flex-direction: column;
+      z-index: 2;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+    }
+
+    .bsod {
+      background-color: #0000AA; /* BSOD background (blue) */
+      color: white;
+    }
+
+    .reboot {
+      background-color: black; /* Reboot background (black) */
+      color: #00FF00;
+      font-size: 14px;
+    }
+
+    /* Red text for explosion screen */
+    .explosion-screen {
+      background-color: #0000AA;
+      color: white;
+      font-family: Consolas, "Courier New", monospace;
+      overflow: hidden;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .explosion-screen .red-text {
+      color: #FF0000;
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow:
+        0 0 5px #FF0000,
+        0 0 10px #FF0000,
+        0 0 20px #FF0000;
+      user-select: none;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .explosion-screen .bsod-text {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      padding: 0 20px;
+    }
+
+    .explosion-screen canvas {
+      display: block;
+      margin: 40px auto 0;
+      background: transparent;
+    }
+
+    .smiley {
+      font-size: 60px;
+    }
+
+    .large {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    .code {
+      font-size: 16px;
+      color: #AAAAFF;
+      margin-top: 20px;
+    }
+
+    .blink {
+      animation: blink 1s step-start 0s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .visible {
+      display: flex !important;
+    }
+
+    .hide-cursor {
+      cursor: none;
+    }
+
+    /* Red text for reboot screen paragraphs */
+    .hot-text {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Initial message -->
+  <div class="container">
+    <p class="main-text">No one is safe</p>
+    <p class="sub-text">The Blue screen of doom</p>
+    <p class="sub-text">has come for you</p>
+  </div>
+
+  <!-- BSOD Screen -->
+  <div class="screen bsod" id="bsodScreen">
+    <div>
+      <div class="smiley">:(</div>
+      <div class="large">
+        Your PC ran into a problem and needs to restart.<br>
+        We're just collecting some error info, and then we'll restart for you.
+      </div>
+      <p>For more information about this issue and possible fixes, visit https://www.windows.com/stopcode</p>
+      <p>If you call a support person, give them this info:</p>
+      <div class="code">Stop code: CRITICAL_PROCESS_ERROR</div>
+      <div class="code">	ERROR_CODE: 3485X4_34</div>
+    </div>
+  </div>
+
+  <!-- Reboot Screen -->
+  <div class="screen reboot" id="rebootScreen">
+    <div>
+      <p>American Megatrends</p>
+      <p>AMIBIOS(C)2023 American Megatrends, Inc.</p>
+      <p>ASUS PRIME B450M-A ACPI BIOS Revision 4405</p>
+      <p>CPU: AMD Ryzen 5 3600 6-Core Processor</p>
+      <p>Speed: 3600MHz</p>
+      <p class="hot-text">Temp... 1000 Degrees Fahrenheit</p>
+      <p class="hot-text">TEMP IS VERY HOT POTENTIAL EXPLOSION!!!!!!!!!</p>
+      <p class="hot-text">pls dont stick a pencil in ur computer</p>
+      <p class="blink">_</p>
+    </div>
+  </div>
+
+  <!-- Explosion BSOD Screen -->
+  <div class="explosion-screen" id="explosionScreen">
+    <div class="red-text">CRITICAL EXPLOSION ERROR</div>
+    <div class="container">
+      <div class="bsod-text">
+        <p>A problem has been detected and Windows has been shut down to prevent damage<br />
+        to your computer.</p>
+
+        <p>*** EXPLOSION_FAULT (0x000000DE)<br />
+        A critical explosion has occurred in the system kernel.<br />
+        Please eat your computer.</p>
+
+        <p>If this is the first time you've seen this stop error screen,<br />
+        eat your computer. If this screen appears again, follow<br />
+        these steps:</p>
+
+        <p>Check to make sure any new hardware or software is properly installed.<br />
+        If this is a new installation, eat your computer<br />
+        some more.</p>
+
+        <p>Technical information:<br />
+        *** STOP: 0xDEADCAFE (7x57839136, 9x90372461, 0x00000000, 0x00000000)</p>
+      </div>
+
+      <canvas id="explosion" width="600" height="200"></canvas>
+    </div>
+  </div>
+  <div class="screen end" id="endScreen">
+    <div class="larger">
+      end of slideshow<br>
+      click esc to go back
+    </div>
+  <script>
+    // Show BSOD after 10 seconds
+    setTimeout(() => {
+      document.querySelector('.container').style.display = 'none';
+      document.body.style.backgroundColor = '#0000AA';
+      document.getElementById('bsodScreen').classList.add('visible');
+      document.body.classList.add('hide-cursor');
+    }, 10000);
+
+    // Show reboot after 20 seconds total
+    setTimeout(() => {
+      document.body.style.backgroundColor = 'black';
+      document.getElementById('bsodScreen').classList.remove('visible');
+      document.getElementById('rebootScreen').classList.add('visible');
+    }, 20000);
+
+    // Show explosion screen 7 seconds after reboot (27 seconds total)
+    setTimeout(() => {
+      document.getElementById('rebootScreen').classList.remove('visible');
+      document.getElementById('explosionScreen').classList.add('visible');
+      // Keep cursor hidden or remove it here if you want
+      // document.body.classList.remove('hide-cursor');
+    }, 27000);
+    
+    setTimeout(() => {
+      document.getElementById('explosionScreen').classList.remove('visible');
+      document.getElementById('endScreen').classList.add('visible');
+      document.body.classList.remove('hide-cursor');
+    }, 34000);
+// 34000
+    // Explosion animation code
+    const canvas = document.getElementById('explosion');
+    const ctx = canvas.getContext('2d');
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = centerX;
+        this.y = centerY;
+        this.radius = Math.random() * 4 + 2;
+        this.color = `hsl(${Math.random() * 60 + 20}, 100%, 70%)`;
+        this.speed = Math.random() * 8 + 4;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.velX = Math.cos(this.angle) * this.speed;
+        this.velY = Math.sin(this.angle) * this.speed;
+        this.life = 50 + Math.random() * 30;
+        this.age = 0;
+        this.gravity = 0.12;
+        this.alpha = 1;
+      }
+
+      update() {
+        this.x += this.velX;
+        this.y += this.velY;
+        this.velY += this.gravity;
+        this.age++;
+        this.alpha = 1 - this.age / this.life;
+        if (this.age >= this.life) {
+          this.reset();
+        }
+      }
+
+      draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+        gradient.addColorStop(0, this.color);
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    const particles = [];
+    const PARTICLE_COUNT = 100;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Center glow
+      const flashRadius = 40 + 20 * Math.sin(Date.now() / 150);
+      const flashGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, flashRadius);
+      flashGradient.addColorStop(0, 'rgba(255, 100, 50, 0.8)');
+      flashGradient.addColorStop(1, 'rgba(255, 50, 0, 0)');
+      ctx.fillStyle = flashGradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, flashRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      particles.forEach(p => {
+        p.update();
+        p.draw(ctx);
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+  </script>
+</body>
+</html>
